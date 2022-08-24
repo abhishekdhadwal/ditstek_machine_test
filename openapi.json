@@ -1,0 +1,299 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Machine Test Api Documentation",
+        "description": "Machine Test Api Documentation",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/",
+            "description": "local server"
+        }
+    ],
+    "tags": [
+        {
+            "name": "App",
+            "description": "App Module"
+        }
+    ],
+    "paths": {
+        "/App/users/signup": {
+            "post": {
+                "tags": [
+                    "App"
+                ],
+                "summary": "create a user Api",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/token"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/create_a_user"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/App/users/login": {
+            "post": {
+                "tags": [
+                    "App"
+                ],
+                "summary": "User login Api",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/user_login"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/App/users": {
+            "put": {
+                "tags": [
+                    "App"
+                ],
+                "summary": "Update User Profile Api",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/update_user"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "token" : ["token"]
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "App"
+                ],
+                "summary": "List Users Api",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/pagination"
+                    },
+                    {
+                        "$ref": "#/components/parameters/limit"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/App/users/{_id}": {
+            "delete": {
+                "tags": [
+                    "App"
+                ],
+                "summary": "Delete A User Api",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/delete_by_id"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "token" : ["token"]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "create_a_user": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "description": "user firstName comes here",
+                        "type": "string",
+                        "format": "string"
+                    },
+                    "lastName": {
+                        "description": "user lastName comes here",
+                        "type": "string",
+                        "format": "string"
+                    },
+                    "role" : {
+                        "description": "role comes here",
+                        "type": "string",
+                        "format": "string",
+                        "enum": [
+                            "SuperAdmin",
+                            "User"
+                        ]
+                    },
+                    "email": {
+                        "description": "user email address comes here",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "description": "user password comes here",
+                        "type": "string",
+                        "format": "password"
+                    }
+                },
+                "required": [
+                    "firstName",
+                    "lastName",
+                    "role",
+                    "email",
+                    "password"
+                ]
+            },
+            "user_login": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "description": "user email address comes here",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "description": "user password comes here",
+                        "type": "string",
+                        "format": "password"
+                    }
+                },
+                "required": [
+                    "email",
+                    "password"
+                ]
+            },
+            "update_user" : {
+                "type": "object",
+                "properties": {
+                    "_id" : {
+                        "description": "user _id comes here",
+                        "type": "string",
+                        "format": "string"   
+                    },
+                    "firstName": {
+                        "description": "user firstName comes here",
+                        "type": "string",
+                        "format": "string"
+                    },
+                    "lastName": {
+                        "description": "user lastName comes here",
+                        "type": "string",
+                        "format": "string"
+                    },
+                    "role" : {
+                        "description": "role comes here",
+                        "type": "string",
+                        "format": "string",
+                        "enum": [
+                            "SuperAdmin",
+                            "User"
+                        ]
+                    },
+                    "email": {
+                        "description": "user email address comes here",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "description": "user password comes here",
+                        "type": "string",
+                        "format": "password"
+                    },
+                    "status" : {
+                        "description": "user password comes here",
+                        "type": "string",
+                        "format": "password",
+                        "enum": [
+                            "Active",
+                            "Deleted"
+                        ]
+                    }
+                },
+                "required": [
+                    "_id"
+                ]
+            }
+        },
+        "parameters": {
+            "token": {
+                "name": "token",
+                "in": "header",
+                "description": "access_token to be passed as a header",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                },
+                "style": "simple"
+            },
+            "pagination": {
+                "name": "pagination",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "number"
+                }
+            },
+            "limit": {
+                "name": "limit",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "number"
+                }
+            },
+            "delete_by_id": {
+                "name": "_id",
+                "in": "path",
+                "description": "Pass here _id",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        },
+        "securitySchemes": {
+            "token": {
+                "type": "apiKey",
+                "name": "token",
+                "in": "header"
+            }
+        }
+    }
+}
